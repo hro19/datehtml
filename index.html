@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
 	<meta charset="UTF-8">
-  <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-<script src="//cdn.jsdelivr.net/velocity/1.2.2/velocity.min.js"></script>
-<script src="/jscss/moment.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/velocity/1.2.2/velocity.min.js"></script>
+<script src="/js/moment.js"></script>
 	<title>velocity.jsについて</title>
 </head>
 <body>
@@ -13,63 +13,90 @@
 	margin: 0;
 	padding: 0;
 }
-
-.box01 {
-  width: 100px;
-  height: 100px;
-  margin: 0 0 30px 0;
-  background-color: #FA8072;
-}
-
-.boxlist{
-	background-color: #ccc;
-	padding: 15px 0;
-	width: 100%;
-}
-
 a {
   color: #285294;
 }
 
-ul[id^="sub_"]{
-	display: none;
-}
-
-a.button{
-	display: inline-block;
-	border: 1px solid #ccc;
-	background-color: #ddd;
-	padding: 20px;
+div[class^="box_"]{
+	background: #FA8072;
+	margin-bottom: 5px;
 }
 
 
 </style>
-
+<div class="box_01"></div>
+<div class="box_02"></div>
+<div class="box_03"></div>
+<div class="box_04"></div>
+<div class="box_05"></div>
+<div class="box_06"></div>
+<div class="box_07">ブログ記事タイトル</div>
+<div class="box_08"></div>
+<div class="box_09"></div>
+<div class="box_10"></div>
+<div class="box_11"></div>
+<div class="box_12"></div>
+<div class="box_13"></div>
 <hr>
-<div id="test" class="hit" style="background:#ccc;"></div>
- 
 <script>
-var now = moment();
-console.log(now.toDate()); // Dateオブジェクトが返される
-
-
-var shougatsu = moment('2015-01-01');
-
-var fromDate = moment('2018-01-16 0:00');
-var limitDate   = moment('2018-01-15 15:28');
-//toDate.diff(fromDate, 'days'); // 365
-
-// 第三引数にtrueを渡すと少数まで計算してくれる
-//toDate.diff(fromDate, 'days', true); // 365.5
-
-// 第二引数を省略するとmsを返す
-//toDate.diff(fromDate); // 31579200000
-console.log(limitDate.toDate());
-
+// 『今の時間の』Dateオブジェクトが返される
 $(function(){
-	$("#test").text(limitDate.diff(now));
+var now = moment();
+	$('.box_01').text('【box01】' + now.toDate());
 });
 
+// 『今日の年月日にフォーマットする』
+$(function(){
+	var now = moment();
+	var formatnow = now.format('YYYY年MM月DD日');
+	$('.box_02').text('【box02】' + formatnow);
+});
+
+// 『任意に選んだ日付の文字列からDateオブジェクト』
+$(function(){
+	var shougatsu = moment('2018-01-08');
+	var formatshougatsu = shougatsu.format('YYYY年MM月DD日');
+	$('.box_03').text('【box03】' + formatshougatsu);
+});
+
+
+// 『diffメソッドを使って時間の差分を算出』
+$(function(){
+	var fromDate = moment();
+	var toDate   = moment('2018-01-30 01:08');
+	var diff = toDate.diff(fromDate,);
+	$('.box_04').text('【box04】' + diff);
+});
+
+// 『diffメソッドを使ってオープンのお知らせを告知する装置』
+$(function(){
+	var fromDate = moment();
+	var toDate   = moment('2018-02-01 00:00');
+	var diff = toDate.diff(fromDate,);
+
+	if(diff <= 0){
+	$('.box_05').html('【box05】<strong>2月より新装開店オープンいたしました</strong>');
+	}
+});
+
+// 『現在時刻を表示する』
+setInterval(function(){
+    $('.box_06').html('【box06】' + moment().format('LTS'));
+}, 1000);
+
+
+// 『登校日より一週間まではnewをつける』
+$(function(){
+	var oneday = moment('2018-01-25');
+	var kigen = moment([2018,0,26]).add(7, 'days');
+	//console.log(oneday);
+	//console.log(kigen);
+	var diff = kigen.diff(oneday);
+	//console.log(diff);
+	if(diff >= 0){
+		$('.box_07').prepend('【box07】<strong>期限付きnewマーク付与</strong>');
+	}
+});
 
 
 </script>
